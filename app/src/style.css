@@ -1,0 +1,764 @@
+/*
+ * Design system.
+ *
+ * A console, not a marketing page: one cool neutral ramp, near-black actions,
+ * and colour reserved for meaning. Contrast is deliberately firm — an earlier
+ * pass with lighter greys and hairline borders read as washed out at a glance,
+ * which is the wrong quality for a screen people scan for risk.
+ */
+
+.mag-app,
+.mag-menu {
+  --mag-canvas: #f1f3f6;
+  --mag-surface: #ffffff;
+  --mag-subtle: #f7f8fa;
+  --mag-line: #dde1e8;
+  --mag-line-2: #c8cede;
+  --mag-line-3: #aab2c2;
+
+  --mag-ink: #0e1117;
+  --mag-ink-2: #434b5a;
+  --mag-ink-3: #6b7383;
+  --mag-ink-4: #8e96a6;
+
+  --mag-action: #12151b;
+  --mag-action-2: #2b3039;
+
+  --mag-read-bg: #e8f0fe;
+  --mag-read-line: #b6cdf6;
+  --mag-read-ink: #14418f;
+  --mag-read-dot: #2563eb;
+
+  --mag-write-bg: #fff2dd;
+  --mag-write-line: #f0cd93;
+  --mag-write-ink: #7a4208;
+  --mag-write-dot: #d97706;
+
+  --mag-danger-bg: #fdeceb;
+  --mag-danger-line: #f2b9b6;
+  --mag-danger-ink: #911a1a;
+  --mag-danger-dot: #dc2626;
+
+  --mag-ok-bg: #e6f7ee;
+  --mag-ok-line: #a9dcc3;
+  --mag-ok-ink: #0a5c37;
+  --mag-ok-dot: #16a34a;
+
+  --mag-mute-bg: #eef0f4;
+  --mag-mute-line: #d8dde5;
+  --mag-mute-ink: #4d5666;
+
+  --mag-ring: 0 0 0 3px rgba(18, 21, 27, 0.12);
+  --mag-shadow: 0 1px 2px rgba(14, 17, 23, 0.05);
+  --mag-shadow-pop: 0 2px 4px rgba(14, 17, 23, 0.06), 0 16px 32px -8px rgba(14, 17, 23, 0.22);
+
+  --mag-r: 6px;
+  --mag-r-lg: 10px;
+  --mag-h: 32px;
+
+  --mag-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mag-ink);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+.mag-app {
+  background: var(--mag-canvas);
+  margin: 0 0 0 -20px;
+  min-height: calc(100vh - 32px);
+}
+
+.mag-app *, .mag-app *::before, .mag-app *::after,
+.mag-menu *, .mag-menu *::before, .mag-menu *::after { box-sizing: border-box; }
+
+#wpbody-content > .notice,
+#wpbody-content > .updated,
+#wpbody-content > .error { display: none; }
+
+/* ------------------------------------------------------------------ shell */
+
+.mag-header {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--mag-line-2);
+  position: sticky;
+  top: 32px;
+  z-index: 20;
+}
+
+@media screen and (max-width: 782px) { .mag-header { top: 46px; } }
+
+.mag-header__inner { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
+
+.mag-brand { display: flex; align-items: center; gap: 12px; padding: 20px 0 14px; }
+.mag-brand__name { font-size: 15px; font-weight: 650; letter-spacing: -0.012em; margin: 0; }
+.mag-brand__meta { font-size: 12px; color: var(--mag-ink-3); }
+
+.mag-nav { display: flex; }
+
+.mag-nav__item {
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 6px 2px 12px;
+  margin: 0 22px -1px 0;
+  font: inherit;
+  font-size: 13px;
+  color: var(--mag-ink-3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 100ms ease;
+}
+
+.mag-nav__item:hover { color: var(--mag-ink-2); }
+.mag-nav__item.is-active { color: var(--mag-ink); font-weight: 600; border-bottom-color: var(--mag-ink); }
+
+.mag-nav__count {
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--mag-write-bg);
+  border: 1px solid var(--mag-write-line);
+  color: var(--mag-write-ink);
+  border-radius: 999px;
+  padding: 0 6px;
+  line-height: 15px;
+}
+
+.mag-main { max-width: 1400px; margin: 0 auto; padding: 28px 32px 80px; }
+
+/* -------------------------------------------------------------- typography */
+
+.mag-title { font-size: 19px; font-weight: 650; letter-spacing: -0.018em; margin: 0 0 5px; }
+.mag-lede { color: var(--mag-ink-2); margin: 0 0 22px; max-width: 66ch; }
+
+.mag-section {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--mag-ink-3);
+  margin: 0 0 10px;
+}
+
+.mag-mono { font-family: var(--mag-mono); font-size: 12.5px; }
+.mag-meta { color: var(--mag-ink-2); font-size: 12px; }
+.mag-meta--dim { color: var(--mag-ink-3); }
+.mag-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.mag-stack { display: flex; flex-direction: column; gap: 4px; }
+
+/* ------------------------------------------------------------------ panel */
+
+.mag-panel {
+  background: var(--mag-surface);
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r-lg);
+  box-shadow: var(--mag-shadow);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ table */
+
+.mag-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+
+.mag-table th {
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--mag-ink-2);
+  padding: 12px 20px;
+  background: var(--mag-subtle);
+  border-bottom: 1px solid var(--mag-line-2);
+  white-space: nowrap;
+}
+
+.mag-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--mag-line);
+  vertical-align: top;
+}
+
+.mag-table tbody tr:last-child td { border-bottom: 0; }
+.mag-table tbody tr { transition: background 90ms ease; }
+.mag-table tbody tr:hover { background: var(--mag-subtle); }
+
+/* Ability names: the namespace is context, the slug is the subject. */
+.mag-ability {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--mag-mono);
+  font-size: 12.5px;
+  letter-spacing: -0.01em;
+  color: var(--mag-ink);
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.mag-ability:hover .mag-ability__slug { text-decoration: underline; text-underline-offset: 2px; }
+.mag-ability__ns { color: var(--mag-ink-4); }
+.mag-ability__slug { font-weight: 620; }
+
+.mag-empty-cell { color: var(--mag-ink-4); }
+
+/* ------------------------------------------------------------------- tags */
+
+.mag-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+  vertical-align: middle;
+  line-height: 1.35;
+}
+
+.mag-tag--read   { background: var(--mag-read-bg);   border-color: var(--mag-read-line);   color: var(--mag-read-ink); }
+.mag-tag--write  { background: var(--mag-write-bg);  border-color: var(--mag-write-line);  color: var(--mag-write-ink); }
+.mag-tag--danger { background: var(--mag-danger-bg); border-color: var(--mag-danger-line); color: var(--mag-danger-ink); }
+.mag-tag--ok     { background: var(--mag-ok-bg);     border-color: var(--mag-ok-line);     color: var(--mag-ok-ink); }
+.mag-tag--mute   { background: var(--mag-mute-bg);   border-color: var(--mag-mute-line);   color: var(--mag-mute-ink); }
+
+/* A guess must never look like a measurement. */
+.mag-tag--unverified { background: transparent; border-style: dashed; }
+
+.mag-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* --------------------------------------------------------------- controls */
+
+.mag-btn {
+  appearance: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 550;
+  height: var(--mag-h);
+  padding: 0 13px;
+  border-radius: var(--mag-r);
+  border: 1px solid var(--mag-line-2);
+  background: var(--mag-surface);
+  color: var(--mag-ink);
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 90ms ease, border-color 90ms ease, box-shadow 90ms ease;
+}
+
+.mag-btn:hover:not(:disabled) { border-color: var(--mag-line-3); background: var(--mag-subtle); }
+.mag-btn:active:not(:disabled) { background: var(--mag-mute-bg); }
+.mag-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.mag-btn--primary { background: var(--mag-action); border-color: var(--mag-action); color: #fff; }
+.mag-btn--primary:hover:not(:disabled) { background: var(--mag-action-2); border-color: var(--mag-action-2); }
+
+.mag-btn--danger { color: var(--mag-danger-ink); }
+.mag-btn--danger:hover:not(:disabled) { background: var(--mag-danger-bg); border-color: var(--mag-danger-line); }
+
+.mag-btn--sm { height: 28px; font-size: 12px; padding: 0 10px; }
+
+/*
+ * Inputs must out-specify wp-admin.
+ *
+ * Core styles form controls with `input[type="text"]`, `input[type="search"]`
+ * and friends — element plus attribute, specificity (0,0,1,1) — which beats a
+ * plain `.mag-input` class no matter what order the stylesheets load in. Left
+ * alone, every field on this screen silently rendered at WordPress's 40px
+ * height with a 2px radius and a blue focus ring, next to our 32px controls.
+ * Qualifying by element and scope wins it back honestly, without !important.
+ */
+.mag-app input.mag-input,
+.mag-app textarea.mag-input,
+.mag-app select.mag-input,
+.mag-menu input.mag-input,
+.mag-menu textarea.mag-input {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: normal;
+  height: var(--mag-h);
+  min-height: var(--mag-h);
+  width: 100%;
+  margin: 0;
+  padding: 0 11px;
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r);
+  background: var(--mag-surface);
+  background-image: none;
+  color: var(--mag-ink);
+  box-shadow: none;
+  outline: none;
+  transition: border-color 90ms ease, box-shadow 90ms ease;
+}
+
+.mag-app input.mag-input::placeholder,
+.mag-menu input.mag-input::placeholder { color: var(--mag-ink-4); opacity: 1; }
+
+.mag-app input.mag-input:hover,
+.mag-menu input.mag-input:hover { border-color: var(--mag-line-3); }
+
+.mag-app input.mag-input:focus,
+.mag-app textarea.mag-input:focus,
+.mag-menu input.mag-input:focus {
+  border-color: var(--mag-action);
+  box-shadow: var(--mag-ring);
+  outline: none;
+}
+
+.mag-app input.mag-input:disabled,
+.mag-menu input.mag-input:disabled { background: var(--mag-subtle); color: var(--mag-ink-3); cursor: not-allowed; }
+
+/* Chrome draws its own magnifier/clear affordances inside search fields. */
+.mag-app input.mag-input[type="search"]::-webkit-search-decoration,
+.mag-app input.mag-input[type="search"]::-webkit-search-results-button,
+.mag-menu input.mag-input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+.mag-app input.mag-input[type="search"]::-webkit-search-cancel-button,
+.mag-menu input.mag-input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 13px;
+  width: 13px;
+  cursor: pointer;
+  background: var(--mag-ink-4);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 2l8 8M10 2l-8 8' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Spinners add visual noise to a field that is edited once. */
+.mag-app input.mag-input[type="number"]::-webkit-outer-spin-button,
+.mag-app input.mag-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.mag-app input.mag-input[type="number"] { width: 96px; -moz-appearance: textfield; appearance: textfield; }
+
+/* Search field with a leading icon. */
+.mag-field { position: relative; display: flex; align-items: center; }
+/* Must out-specify the input block above, which now qualifies by element. */
+.mag-app .mag-field input.mag-input,
+.mag-menu .mag-field input.mag-input { padding-left: 33px; }
+.mag-field__icon { position: absolute; left: 11px; color: var(--mag-ink-4); pointer-events: none; display: flex; }
+
+.mag-filters { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.mag-search { flex: 1; min-width: 220px; max-width: 360px; }
+
+.mag-check {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--mag-line);
+  cursor: pointer;
+}
+
+.mag-check:last-child { border-bottom: 0; }
+
+/*
+ * Checkboxes and radios are drawn here rather than left to core.
+ *
+ * wp-admin already sets `appearance: none` and paints its own tick through a
+ * ::before dashicon in its blue, so `accent-color` has no effect and the
+ * controls stay WordPress-coloured next to our near-black actions.
+ */
+.mag-app .mag-check input[type="checkbox"],
+.mag-app .mag-quorum input[type="radio"],
+.mag-menu .mag-quorum input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  margin: 0;
+  flex: none;
+  border: 1px solid var(--mag-line-3);
+  background: var(--mag-surface);
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+  transition: background 90ms ease, border-color 90ms ease;
+}
+
+.mag-app .mag-check input[type="checkbox"] { border-radius: 4px; margin-top: 2px; }
+.mag-app .mag-quorum input[type="radio"],
+.mag-menu .mag-quorum input[type="radio"] { border-radius: 50%; }
+
+.mag-app .mag-check input[type="checkbox"]:hover,
+.mag-app .mag-quorum input[type="radio"]:hover,
+.mag-menu .mag-quorum input[type="radio"]:hover { border-color: var(--mag-ink-3); }
+
+.mag-app .mag-check input[type="checkbox"]:checked,
+.mag-app .mag-quorum input[type="radio"]:checked,
+.mag-menu .mag-quorum input[type="radio"]:checked {
+  background: var(--mag-action);
+  border-color: var(--mag-action);
+}
+
+/* Replace core's dashicon tick with our own mark. */
+.mag-app .mag-check input[type="checkbox"]::before,
+.mag-app .mag-check input[type="checkbox"]:checked::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  color: transparent;
+  -webkit-mask: none;
+  mask: none;
+}
+
+.mag-app .mag-check input[type="checkbox"]:checked::before {
+  background-color: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.2l2.8 2.8L11 4.6' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 13px 13px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3 7.2l2.8 2.8L11 4.6' fill='none' stroke='black' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 13px 13px no-repeat;
+}
+
+.mag-app .mag-quorum input[type="radio"]:checked::before,
+.mag-menu .mag-quorum input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.mag-app .mag-check input[type="checkbox"]:focus-visible,
+.mag-app .mag-quorum input[type="radio"]:focus-visible,
+.mag-menu .mag-quorum input[type="radio"]:focus-visible {
+  outline: none;
+  box-shadow: var(--mag-ring);
+}
+.mag-check__label { font-weight: 600; }
+.mag-check__hint { color: var(--mag-ink-2); margin-top: 3px; line-height: 1.55; }
+
+/* --------------------------------------------------------------- dropdown */
+
+.mag-dd { position: relative; }
+
+.mag-dd__trigger {
+  appearance: none;
+  font: inherit;
+  font-size: 12.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  height: var(--mag-h);
+  padding: 0 10px;
+  background: var(--mag-surface);
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r);
+  color: var(--mag-ink);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 90ms ease, box-shadow 90ms ease, background 90ms ease;
+}
+
+.mag-dd__trigger:hover:not(:disabled) { border-color: var(--mag-line-3); background: var(--mag-subtle); }
+.mag-dd__trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.mag-dd.is-open .mag-dd__trigger { border-color: var(--mag-action); box-shadow: var(--mag-ring); }
+
+.mag-dd__value { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.mag-dd__chev { color: var(--mag-ink-4); flex: none; transition: transform 140ms ease; }
+.mag-dd.is-open .mag-dd__chev { transform: rotate(180deg); }
+
+.mag-dd__dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.mag-dd__dot--ok     { background: var(--mag-ok-dot); }
+.mag-dd__dot--write  { background: var(--mag-write-dot); }
+.mag-dd__dot--danger { background: var(--mag-danger-dot); }
+.mag-dd__dot--mute   { background: var(--mag-ink-4); }
+
+.mag-menu {
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--mag-surface);
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r-lg);
+  box-shadow: var(--mag-shadow-pop);
+  padding: 5px;
+  outline: none;
+  animation: mag-pop 110ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mag-pop {
+  from { opacity: 0; transform: translateY(-4px) scale(0.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+.mag-menu--wide { padding: 0; }
+
+.mag-menu__item {
+  appearance: none;
+  font: inherit;
+  font-size: 12.5px;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: 0;
+  border-radius: var(--mag-r);
+  padding: 8px 10px;
+  cursor: pointer;
+  color: var(--mag-ink);
+  display: block;
+}
+
+.mag-menu__item.is-active { background: var(--mag-canvas); }
+.mag-menu__item.is-selected { font-weight: 600; }
+.mag-menu__main { display: flex; align-items: center; gap: 8px; }
+.mag-menu__hint {
+  display: block;
+  color: var(--mag-ink-3);
+  font-size: 11.5px;
+  line-height: 1.45;
+  margin-top: 3px;
+  padding-left: 14px;
+}
+
+/* ----------------------------------------------------------- user picker */
+
+.mag-picker { position: relative; }
+
+.mag-picker__trigger {
+  appearance: none;
+  font: inherit;
+  font-size: 12.5px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  height: var(--mag-h);
+  padding: 0 10px 0 7px;
+  background: var(--mag-surface);
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r);
+  cursor: pointer;
+  color: var(--mag-ink);
+  text-align: left;
+  transition: border-color 90ms ease, background 90ms ease;
+}
+
+.mag-picker__trigger:hover:not(:disabled) { border-color: var(--mag-line-3); background: var(--mag-subtle); }
+.mag-picker__trigger:disabled { opacity: 0.5; cursor: not-allowed; }
+.mag-picker__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mag-picker__label--empty { color: var(--mag-ink-3); padding-left: 3px; }
+
+.mag-faces { display: inline-flex; flex: none; }
+.mag-faces .mag-face + .mag-face { margin-left: -8px; }
+
+.mag-face {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--mag-surface);
+  background: var(--mag-mute-bg);
+  flex: none;
+  object-fit: cover;
+}
+
+.mag-menu__search { padding: 9px; border-bottom: 1px solid var(--mag-line); }
+.mag-menu__scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 5px; }
+
+.mag-person {
+  appearance: none;
+  font: inherit;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  background: none;
+  border: 0;
+  border-radius: var(--mag-r);
+  cursor: pointer;
+  text-align: left;
+  color: var(--mag-ink);
+}
+
+.mag-person:hover { background: var(--mag-canvas); }
+
+.mag-person__check {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--mag-line-3);
+  border-radius: 4px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: #fff;
+}
+
+.mag-person.is-selected .mag-person__check { background: var(--mag-action); border-color: var(--mag-action); }
+.mag-person__text { display: flex; flex-direction: column; min-width: 0; }
+.mag-person__name { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mag-person__meta { font-size: 11px; color: var(--mag-ink-3); }
+
+.mag-menu__none { padding: 20px 12px; text-align: center; color: var(--mag-ink-3); margin: 0; }
+
+.mag-menu__foot {
+  border-top: 1px solid var(--mag-line);
+  padding: 9px 11px;
+  display: flex;
+  gap: 16px;
+  background: var(--mag-subtle);
+}
+
+.mag-quorum { display: flex; align-items: center; gap: 7px; font-size: 12px; cursor: pointer; }
+.mag-quorum input { margin: 0; }
+
+/* ------------------------------------------------------------------- diff */
+
+.mag-diff {
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r);
+  overflow: hidden;
+  font-family: var(--mag-mono);
+  font-size: 12px;
+}
+
+.mag-diff__row { display: grid; grid-template-columns: 168px 1fr; border-bottom: 1px solid var(--mag-line); }
+.mag-diff__row:last-child { border-bottom: 0; }
+
+.mag-diff__key {
+  padding: 9px 13px;
+  background: var(--mag-subtle);
+  border-right: 1px solid var(--mag-line);
+  color: var(--mag-ink-2);
+  word-break: break-word;
+}
+
+.mag-diff__vals { min-width: 0; }
+.mag-diff__val { padding: 7px 13px; white-space: pre-wrap; word-break: break-word; }
+.mag-diff__val--before { color: var(--mag-danger-ink); background: #fdf2f1; }
+.mag-diff__val--after  { color: var(--mag-ok-ink);     background: #eff9f4; }
+.mag-diff__val--before::before { content: "− "; opacity: 0.55; }
+.mag-diff__val--after::before  { content: "+ "; opacity: 0.55; }
+
+/* ------------------------------------------------------------------ cards */
+
+.mag-card {
+  background: var(--mag-surface);
+  border: 1px solid var(--mag-line-2);
+  border-radius: var(--mag-r-lg);
+  box-shadow: var(--mag-shadow);
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.mag-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--mag-line);
+}
+
+.mag-card__body { padding: 18px; }
+
+.mag-card__foot {
+  padding: 13px 18px;
+  background: var(--mag-subtle);
+  border-top: 1px solid var(--mag-line);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------------- misc */
+
+.mag-note {
+  border: 1px solid var(--mag-write-line);
+  background: var(--mag-write-bg);
+  color: var(--mag-write-ink);
+  border-radius: var(--mag-r-lg);
+  padding: 13px 15px;
+  margin-bottom: 20px;
+}
+
+.mag-note--info { border-color: var(--mag-read-line); background: var(--mag-read-bg); color: var(--mag-read-ink); }
+
+.mag-empty { text-align: center; padding: 64px 20px; color: var(--mag-ink-3); }
+.mag-empty__title { font-size: 14px; color: var(--mag-ink-2); margin-bottom: 5px; font-weight: 600; }
+
+.mag-toast {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 100001;
+  background: var(--mag-action);
+  color: #fff;
+  padding: 11px 16px;
+  border-radius: var(--mag-r);
+  font-size: 12.5px;
+  box-shadow: var(--mag-shadow-pop);
+  max-width: 380px;
+  animation: mag-toast-in 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mag-toast-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.mag-toast--error { background: var(--mag-danger-ink); }
+
+.mag-spinner {
+  width: 15px; height: 15px;
+  border: 2px solid var(--mag-line-2);
+  border-top-color: var(--mag-ink-3);
+  border-radius: 50%;
+  animation: mag-spin 620ms linear infinite;
+  display: inline-block;
+}
+
+@keyframes mag-spin { to { transform: rotate(360deg); } }
+
+.mag-ops { display: flex; flex-wrap: wrap; gap: 5px; }
+
+.mag-op {
+  font-family: var(--mag-mono);
+  font-size: 11px;
+  background: var(--mag-mute-bg);
+  border: 1px solid var(--mag-mute-line);
+  color: var(--mag-ink-2);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.mag-op--irreversible { background: var(--mag-danger-bg); border-color: var(--mag-danger-line); color: var(--mag-danger-ink); }
+
+.mag-rule { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+
+.mag-drawer {
+  background: var(--mag-subtle);
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 36px;
+  border-top: 1px solid var(--mag-line-2);
+}
+
+@media (max-width: 960px) { .mag-drawer { grid-template-columns: 1fr; gap: 24px; } }

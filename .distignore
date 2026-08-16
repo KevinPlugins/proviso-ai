@@ -1,0 +1,10 @@
+# Sources and tooling — the built app in assets/ is what ships.
+/app
+/tests
+/.distignore
+/.gitignore
+node_modules
+*.log
+/phpcs.xml.dist
+/bin
+/release

@@ -1,0 +1,16 @@
+# Dependencies
+app/node_modules/
+node_modules/
+
+# Build output of the release script (attach to GitHub Releases instead)
+/release/
+
+# Logs and OS noise
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor / local tooling
+.idea/
+.vscode/
+.claude/
