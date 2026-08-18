@@ -37,8 +37,8 @@ final class Plugin {
 		wp_register_ability_category(
 			'mag',
 			array(
-				'label'       => __( 'Ability Guard', 'mcp-ability-guard' ),
-				'description' => __( 'Governance and approval status.', 'mcp-ability-guard' ),
+				'label'       => __( 'Ability Guard', 'kevin-mcp-ability-guard' ),
+				'description' => __( 'Governance and approval status.', 'kevin-mcp-ability-guard' ),
 			)
 		);
 	}
@@ -57,8 +57,8 @@ final class Plugin {
 		wp_register_ability(
 			'mag/check-request',
 			array(
-				'label'       => __( 'Check change request', 'mcp-ability-guard' ),
-				'description' => __( 'Look up whether a change you proposed has been approved, rejected, or is still awaiting review. Call this instead of retrying a change that returned mag_pending_approval.', 'mcp-ability-guard' ),
+				'label'       => __( 'Check change request', 'kevin-mcp-ability-guard' ),
+				'description' => __( 'Look up whether a change you proposed has been approved, rejected, or is still awaiting review. Call this instead of retrying a change that returned mag_pending_approval.', 'kevin-mcp-ability-guard' ),
 				'category'    => 'mag',
 				'input_schema' => array(
 					'type'       => 'object',
@@ -66,7 +66,7 @@ final class Plugin {
 					'properties' => array(
 						'request_id' => array(
 							'type'        => 'integer',
-							'description' => __( 'The change request ID returned when the change was queued.', 'mcp-ability-guard' ),
+							'description' => __( 'The change request ID returned when the change was queued.', 'kevin-mcp-ability-guard' ),
 						),
 					),
 				),
@@ -83,7 +83,7 @@ final class Plugin {
 				'execute_callback' => static function ( $input ) {
 					$request = Requests::find( (int) ( $input['request_id'] ?? 0 ) );
 					if ( ! $request ) {
-						return new \WP_Error( 'mag_not_found', __( 'No such change request.', 'mcp-ability-guard' ) );
+						return new \WP_Error( 'mag_not_found', __( 'No such change request.', 'kevin-mcp-ability-guard' ) );
 					}
 					// Agents see status only — never another user's arguments.
 					return array(

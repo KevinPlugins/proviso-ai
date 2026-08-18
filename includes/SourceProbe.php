@@ -89,7 +89,7 @@ final class SourceProbe {
 		if ( ! is_callable( $callback ) ) {
 			return self::$cache[ $ability ] = self::verdict(
 				self::OPAQUE,
-				__( 'The original callback is not available to inspect.', 'mcp-ability-guard' )
+				__( 'The original callback is not available to inspect.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
@@ -111,7 +111,7 @@ final class SourceProbe {
 		if ( $depth > self::MAX_DEPTH ) {
 			return self::verdict(
 				self::OPAQUE,
-				__( 'Delegation ran deeper than this reader follows.', 'mcp-ability-guard' )
+				__( 'Delegation ran deeper than this reader follows.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
@@ -119,7 +119,7 @@ final class SourceProbe {
 		if ( null === $source ) {
 			return self::verdict(
 				self::OPAQUE,
-				__( 'The callback source could not be read.', 'mcp-ability-guard' )
+				__( 'The callback source could not be read.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
@@ -132,7 +132,7 @@ final class SourceProbe {
 				self::EMIT,
 				sprintf(
 					/* translators: %s: comma-separated function names. */
-					__( 'Sends or writes outside the database: %s', 'mcp-ability-guard' ),
+					__( 'Sends or writes outside the database: %s', 'kevin-mcp-ability-guard' ),
 					implode( ', ', $found['emit'] )
 				),
 				$found['emit']
@@ -144,7 +144,7 @@ final class SourceProbe {
 				self::WRITE,
 				sprintf(
 					/* translators: %s: comma-separated function names. */
-					__( 'Calls: %s', 'mcp-ability-guard' ),
+					__( 'Calls: %s', 'kevin-mcp-ability-guard' ),
 					implode( ', ', $found['write'] )
 				),
 				$found['write']
@@ -166,14 +166,14 @@ final class SourceProbe {
 			return self::verdict(
 				self::OPAQUE,
 				$found['dynamic']
-					? __( 'Dispatches at runtime, so what it calls cannot be read.', 'mcp-ability-guard' )
-					: __( 'Hands off to something this reader could not resolve.', 'mcp-ability-guard' )
+					? __( 'Dispatches at runtime, so what it calls cannot be read.', 'kevin-mcp-ability-guard' )
+					: __( 'Hands off to something this reader could not resolve.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
 		return self::verdict(
 			self::READ,
-			__( 'No database writes, no outbound requests, nothing dispatched at runtime.', 'mcp-ability-guard' )
+			__( 'No database writes, no outbound requests, nothing dispatched at runtime.', 'kevin-mcp-ability-guard' )
 		);
 	}
 

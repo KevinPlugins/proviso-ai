@@ -116,7 +116,7 @@ final class Transport {
 						'mag_ungoverned_tool',
 						sprintf(
 							/* translators: %s: tool name. */
-							__( 'The tool "%s" is not governed by this site and site policy refuses ungoverned calls. Do not retry.', 'mcp-ability-guard' ),
+							__( 'The tool "%s" is not governed by this site and site policy refuses ungoverned calls. Do not retry.', 'kevin-mcp-ability-guard' ),
 							$tool
 						)
 					);
@@ -135,7 +135,7 @@ final class Transport {
 					'mag_blocked',
 					sprintf(
 						/* translators: %s: ability name. */
-						__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'mcp-ability-guard' ),
+						__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'kevin-mcp-ability-guard' ),
 						$ability
 					)
 				);
@@ -155,7 +155,7 @@ final class Transport {
 					'mag_pending_approval',
 					sprintf(
 						/* translators: %d: change request ID. */
-						__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'mcp-ability-guard' ),
+						__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'kevin-mcp-ability-guard' ),
 						(int) $id
 					),
 					array(

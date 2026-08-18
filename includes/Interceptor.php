@@ -87,7 +87,7 @@ final class Interceptor {
 				'mag_blocked',
 				sprintf(
 					/* translators: %s: ability name. */
-					__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'mcp-ability-guard' ),
+					__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'kevin-mcp-ability-guard' ),
 					$name
 				),
 				array( 'status' => 'blocked' )
@@ -109,7 +109,7 @@ final class Interceptor {
 				'mag_pending_approval',
 				sprintf(
 					/* translators: %d: change request ID. */
-					__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'mcp-ability-guard' ),
+					__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'kevin-mcp-ability-guard' ),
 					(int) $id
 				),
 				array(
@@ -171,7 +171,7 @@ final class Interceptor {
 	private static function invoke( string $name, $input ) {
 		$callback = self::$originals[ $name ] ?? null;
 		if ( ! $callback ) {
-			return new \WP_Error( 'mag_no_callback', __( 'Original ability callback is unavailable.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_no_callback', __( 'Original ability callback is unavailable.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		// Core passes no argument when the ability declares no input schema.

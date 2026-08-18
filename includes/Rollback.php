@@ -135,7 +135,7 @@ final class Rollback {
 	 */
 	public static function apply( array $plan, bool $force = false ) {
 		if ( empty( $plan['steps'] ) ) {
-			return new \WP_Error( 'mag_nothing_to_undo', __( 'This action recorded no reversible changes.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_nothing_to_undo', __( 'This action recorded no reversible changes.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		$applied = 0;
@@ -147,7 +147,7 @@ final class Rollback {
 			if ( $stale && ! $force ) {
 				$skipped[] = sprintf(
 					/* translators: 1: operation, 2: object id */
-					__( '%1$s #%2$s was changed again after this action; leaving it alone.', 'mcp-ability-guard' ),
+					__( '%1$s #%2$s was changed again after this action; leaving it alone.', 'kevin-mcp-ability-guard' ),
 					$step['do'],
 					(string) $step['id']
 				);
@@ -299,26 +299,26 @@ final class Rollback {
 	/** Human summary for the audit screen. */
 	public static function describe( array $plan ): string {
 		if ( empty( $plan['steps'] ) && empty( $plan['blocked'] ) ) {
-			return __( 'Nothing was changed.', 'mcp-ability-guard' );
+			return __( 'Nothing was changed.', 'kevin-mcp-ability-guard' );
 		}
 		if ( ! empty( $plan['reversible'] ) ) {
 			return sprintf(
 				/* translators: %d: number of steps. */
-				_n( 'Fully reversible (%d step).', 'Fully reversible (%d steps).', count( $plan['steps'] ), 'mcp-ability-guard' ),
+				_n( 'Fully reversible (%d step).', 'Fully reversible (%d steps).', count( $plan['steps'] ), 'kevin-mcp-ability-guard' ),
 				count( $plan['steps'] )
 			);
 		}
 		if ( ! empty( $plan['partial'] ) ) {
 			return sprintf(
 				/* translators: 1: reversible steps, 2: blocking reasons */
-				__( 'Partly reversible: %1$d step(s) can be undone, but %2$s.', 'mcp-ability-guard' ),
+				__( 'Partly reversible: %1$d step(s) can be undone, but %2$s.', 'kevin-mcp-ability-guard' ),
 				count( $plan['steps'] ),
 				implode( '; ', $plan['blocked'] )
 			);
 		}
 		return sprintf(
 			/* translators: %s: blocking reasons. */
-			__( 'Not reversible: %s.', 'mcp-ability-guard' ),
+			__( 'Not reversible: %s.', 'kevin-mcp-ability-guard' ),
 			implode( '; ', $plan['blocked'] )
 		);
 	}

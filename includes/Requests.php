@@ -66,7 +66,7 @@ final class Requests {
 		);
 
 		if ( false === $ok ) {
-			return new \WP_Error( 'mag_store_failed', __( 'Could not record the change request.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_store_failed', __( 'Could not record the change request.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		return (int) $wpdb->insert_id;
@@ -170,7 +170,7 @@ final class Requests {
 		$request = self::find( $id );
 
 		if ( ! $request ) {
-			return new \WP_Error( 'mag_not_found', __( 'Change request not found.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_not_found', __( 'Change request not found.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		if ( self::PENDING !== $request['status'] ) {
@@ -178,14 +178,14 @@ final class Requests {
 				'mag_not_pending',
 				sprintf(
 					/* translators: %s: current status. */
-					__( 'This request is already %s.', 'mcp-ability-guard' ),
+					__( 'This request is already %s.', 'kevin-mcp-ability-guard' ),
 					$request['status']
 				)
 			);
 		}
 
 		if ( ! Policy::can_approve( $user_id, $request['ability'] ) ) {
-			return new \WP_Error( 'mag_cannot_approve', __( 'You are not one of the approvers for this ability.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_cannot_approve', __( 'You are not one of the approvers for this ability.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		// Record this person's vote before deciding whether the bar is met, so
@@ -207,7 +207,7 @@ final class Requests {
 				'required'   => $needed,
 				'message'    => sprintf(
 					/* translators: 1: approvals so far, 2: approvals required */
-					__( 'Recorded. %1$d of %2$d required approvals.', 'mcp-ability-guard' ),
+					__( 'Recorded. %1$d of %2$d required approvals.', 'kevin-mcp-ability-guard' ),
 					$have,
 					$needed
 				),
@@ -223,7 +223,7 @@ final class Requests {
 		if ( ! $callback ) {
 			return new \WP_Error(
 				'mag_no_callback',
-				__( 'The ability that created this request is no longer registered.', 'mcp-ability-guard' )
+				__( 'The ability that created this request is no longer registered.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
@@ -275,13 +275,13 @@ final class Requests {
 		$request = self::find( $id );
 
 		if ( ! $request ) {
-			return new \WP_Error( 'mag_not_found', __( 'Change request not found.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_not_found', __( 'Change request not found.', 'kevin-mcp-ability-guard' ) );
 		}
 		if ( self::PENDING !== $request['status'] ) {
-			return new \WP_Error( 'mag_not_pending', __( 'This request has already been decided.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_not_pending', __( 'This request has already been decided.', 'kevin-mcp-ability-guard' ) );
 		}
 		if ( ! Policy::can_approve( $user_id, $request['ability'] ) ) {
-			return new \WP_Error( 'mag_cannot_approve', __( 'You are not one of the approvers for this ability.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_cannot_approve', __( 'You are not one of the approvers for this ability.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		self::cast( $id, $user_id, 'reject', (string) ( $comment ?? '' ) );
@@ -311,7 +311,7 @@ final class Requests {
 		if ( $existing ) {
 			return new \WP_Error(
 				'mag_already_voted',
-				__( 'You have already recorded a decision on this request.', 'mcp-ability-guard' )
+				__( 'You have already recorded a decision on this request.', 'kevin-mcp-ability-guard' )
 			);
 		}
 

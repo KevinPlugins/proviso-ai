@@ -101,15 +101,15 @@ final class AuditLog {
 		);
 
 		if ( ! $row ) {
-			return new \WP_Error( 'mag_not_found', __( 'No such audit entry.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_not_found', __( 'No such audit entry.', 'kevin-mcp-ability-guard' ) );
 		}
 		if ( ! empty( $row['undone_at'] ) ) {
-			return new \WP_Error( 'mag_already_undone', __( 'This action has already been undone.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_already_undone', __( 'This action has already been undone.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		$plan = json_decode( (string) $row['rollback'], true );
 		if ( ! is_array( $plan ) ) {
-			return new \WP_Error( 'mag_no_plan', __( 'No rollback information was recorded for this action.', 'mcp-ability-guard' ) );
+			return new \WP_Error( 'mag_no_plan', __( 'No rollback information was recorded for this action.', 'kevin-mcp-ability-guard' ) );
 		}
 
 		$result = Rollback::apply( $plan, $force );

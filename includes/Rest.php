@@ -205,7 +205,7 @@ final class Rest {
 		$ability = sanitize_text_field( (string) ( $body['ability'] ?? '' ) );
 
 		if ( '' === $ability ) {
-			return new \WP_Error( 'mag_bad_request', __( 'No ability given.', 'mcp-ability-guard' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'mag_bad_request', __( 'No ability given.', 'kevin-mcp-ability-guard' ), array( 'status' => 400 ) );
 		}
 
 		if ( array_key_exists( 'rule', $body ) ) {
@@ -476,7 +476,7 @@ final class Rest {
 
 	private static function user_name( int $id ): string {
 		if ( ! $id ) {
-			return __( 'system', 'mcp-ability-guard' );
+			return __( 'system', 'kevin-mcp-ability-guard' );
 		}
 		$u = get_userdata( $id );
 		return $u ? $u->display_name : (string) $id;

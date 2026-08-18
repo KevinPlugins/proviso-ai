@@ -103,7 +103,7 @@ final class Identity {
 			return self::$current = self::build(
 				'apw:' . self::$app_password['uuid'],
 				self::BOUND,
-				self::$app_password['name'] ?: __( 'Application password', 'mcp-ability-guard' ),
+				self::$app_password['name'] ?: __( 'Application password', 'kevin-mcp-ability-guard' ),
 				$user_id,
 				'application_password',
 				$signals
@@ -147,7 +147,7 @@ final class Identity {
 			return self::$current = self::build(
 				'session:' . hash( 'sha256', $signals['session_id'] ),
 				self::OBSERVED,
-				__( 'MCP session', 'mcp-ability-guard' ) . ' ' . substr( $signals['session_id'], 0, 8 ),
+				__( 'MCP session', 'kevin-mcp-ability-guard' ) . ' ' . substr( $signals['session_id'], 0, 8 ),
 				$user_id,
 				$signals['auth_scheme'] ?: 'mcp',
 				$signals
@@ -161,7 +161,7 @@ final class Identity {
 		return self::$current = self::build(
 			$user_id ? 'unresolved:' . $user_id : 'unresolved',
 			self::UNRESOLVED,
-			__( 'Unidentified client', 'mcp-ability-guard' ),
+			__( 'Unidentified client', 'kevin-mcp-ability-guard' ),
 			$user_id,
 			$signals['auth_scheme'] ?: 'unknown',
 			$signals

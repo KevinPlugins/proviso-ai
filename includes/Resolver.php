@@ -122,14 +122,14 @@ final class Resolver {
 		if ( null === $now ) {
 			return new \WP_Error(
 				'mag_target_gone',
-				__( 'The object this change targets no longer exists.', 'mcp-ability-guard' )
+				__( 'The object this change targets no longer exists.', 'kevin-mcp-ability-guard' )
 			);
 		}
 
 		if ( $now['hash'] !== $stored['hash'] ) {
 			return new \WP_Error(
 				'mag_stale',
-				__( 'Someone has changed this since the request was queued, so the preview above no longer matches reality. Applying it would discard whatever was done in the meantime. Discard this request and have the agent start again from the current state.', 'mcp-ability-guard' )
+				__( 'Someone has changed this since the request was queued, so the preview above no longer matches reality. Applying it would discard whatever was done in the meantime. Discard this request and have the agent start again from the current state.', 'kevin-mcp-ability-guard' )
 			);
 		}
 

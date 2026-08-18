@@ -31,7 +31,7 @@ final class Admin {
 		$cap     = self::capability();
 		$pending = Requests::count_pending();
 
-		$title = __( 'Ability Guard', 'mcp-ability-guard' );
+		$title = __( 'Ability Guard', 'kevin-mcp-ability-guard' );
 		if ( $pending ) {
 			$title .= sprintf(
 				' <span class="awaiting-mod"><span class="pending-count">%d</span></span>',
@@ -40,7 +40,7 @@ final class Admin {
 		}
 
 		add_menu_page(
-			__( 'MCP Ability Guard', 'mcp-ability-guard' ),
+			__( 'MCP Ability Guard', 'kevin-mcp-ability-guard' ),
 			$title,
 			$cap,
 			self::SLUG,
@@ -51,9 +51,9 @@ final class Admin {
 
 		// Submenus deep-link into the app rather than rendering separate screens.
 		$views = array(
-			'abilities' => __( 'Abilities', 'mcp-ability-guard' ),
-			'queue'     => __( 'Approval Queue', 'mcp-ability-guard' ),
-			'audit'     => __( 'Audit Log', 'mcp-ability-guard' ),
+			'abilities' => __( 'Abilities', 'kevin-mcp-ability-guard' ),
+			'queue'     => __( 'Approval Queue', 'kevin-mcp-ability-guard' ),
+			'audit'     => __( 'Audit Log', 'kevin-mcp-ability-guard' ),
 		);
 
 		foreach ( $views as $view => $label ) {
@@ -69,8 +69,8 @@ final class Admin {
 
 		add_submenu_page(
 			self::SLUG,
-			__( 'Settings', 'mcp-ability-guard' ),
-			__( 'Settings', 'mcp-ability-guard' ),
+			__( 'Settings', 'kevin-mcp-ability-guard' ),
+			__( 'Settings', 'kevin-mcp-ability-guard' ),
 			'manage_options',
 			self::SLUG . '&view=settings',
 			'__return_null'
@@ -115,7 +115,7 @@ final class Admin {
 		if ( ! Schema::is_installed() ) {
 			printf(
 				'<div class="wrap"><div class="notice notice-error"><p>%s</p></div></div>',
-				esc_html__( 'Storage tables are missing. Deactivate and reactivate MCP Ability Guard.', 'mcp-ability-guard' )
+				esc_html__( 'Storage tables are missing. Deactivate and reactivate MCP Ability Guard.', 'kevin-mcp-ability-guard' )
 			);
 			return;
 		}

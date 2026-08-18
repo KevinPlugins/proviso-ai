@@ -103,12 +103,12 @@ if ( ! $admins ) {
 }
 wp_set_current_user( (int) $admins[0] );
 
-require_once __DIR__ . '/../mcp-ability-guard.php';
+require_once __DIR__ . '/../kevin-mcp-ability-guard.php';
 
 // The suite writes to, and finally drops, the plugin's own tables. That is fine
 // on a machine where the plugin is dormant and destructive where it is live, so
 // refuse rather than quietly deleting somebody's approval queue.
-$is_active = in_array( 'mcp-ability-guard/mcp-ability-guard.php', (array) get_option( 'active_plugins', array() ), true );
+$is_active = in_array( 'kevin-mcp-ability-guard/kevin-mcp-ability-guard.php', (array) get_option( 'active_plugins', array() ), true );
 
 if ( $is_active && ! getenv( 'MAG_TEST_FORCE' ) ) {
 	fwrite(

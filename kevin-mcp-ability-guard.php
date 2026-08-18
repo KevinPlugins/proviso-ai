@@ -10,7 +10,7 @@
  * Author URI:        https://www.kevinplugins.com
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       mcp-ability-guard
+ * Text Domain:       kevin-mcp-ability-guard
  *
  * @package McpAbilityGuard
  */

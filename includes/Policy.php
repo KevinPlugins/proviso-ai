@@ -131,7 +131,7 @@ final class Policy {
 					'decision' => $requested,
 					'reason'   => sprintf(
 						/* translators: %s: requester label. */
-						__( 'Rule for this caller (%s).', 'mcp-ability-guard' ),
+						__( 'Rule for this caller (%s).', 'kevin-mcp-ability-guard' ),
 						$identity['label'] ?? ''
 					),
 				);
@@ -141,7 +141,7 @@ final class Policy {
 				'decision' => self::REQUIRE,
 				'reason'   => sprintf(
 					/* translators: %s: requester label. */
-					__( 'An auto-approve rule exists for "%s", but this caller is only self-reported and cannot be trusted to claim that identity.', 'mcp-ability-guard' ),
+					__( 'An auto-approve rule exists for "%s", but this caller is only self-reported and cannot be trusted to claim that identity.', 'kevin-mcp-ability-guard' ),
 					$identity['label'] ?? ''
 				),
 			);
@@ -150,21 +150,21 @@ final class Policy {
 		if ( isset( $s['rules'][ $ability ] ) ) {
 			return array(
 				'decision' => $s['rules'][ $ability ],
-				'reason'   => __( 'Explicit rule set by an administrator.', 'mcp-ability-guard' ),
+				'reason'   => __( 'Explicit rule set by an administrator.', 'kevin-mcp-ability-guard' ),
 			);
 		}
 
 		if ( ! empty( $s['gate_unresolved'] ) && Identity::UNRESOLVED === ( $identity['tier'] ?? '' ) ) {
 			return array(
 				'decision' => self::REQUIRE,
-				'reason'   => __( 'The calling client could not be identified.', 'mcp-ability-guard' ),
+				'reason'   => __( 'The calling client could not be identified.', 'kevin-mcp-ability-guard' ),
 			);
 		}
 
 		if ( ! empty( $s['learning_mode'] ) ) {
 			return array(
 				'decision' => self::AUTO,
-				'reason'   => __( 'Learning mode: recording behaviour without gating.', 'mcp-ability-guard' ),
+				'reason'   => __( 'Learning mode: recording behaviour without gating.', 'kevin-mcp-ability-guard' ),
 			);
 		}
 
@@ -192,7 +192,7 @@ final class Policy {
 				'decision' => self::AUTO,
 				'reason'   => sprintf(
 					/* translators: %d: number of observed executions. */
-					__( 'Observed %d times, never wrote anything.', 'mcp-ability-guard' ),
+					__( 'Observed %d times, never wrote anything.', 'kevin-mcp-ability-guard' ),
 					(int) $profile['observations']
 				),
 			);
@@ -212,16 +212,16 @@ final class Policy {
 					'decision'    => self::AUTO,
 					'provisional' => true,
 					'reason'      => 'declared' === $hint['basis']
-						? __( 'Declares itself read-only. Unverified — being checked as it runs.', 'mcp-ability-guard' )
-						: __( 'Looks read-only from its name and arguments. Unverified — being checked as it runs.', 'mcp-ability-guard' ),
+						? __( 'Declares itself read-only. Unverified — being checked as it runs.', 'kevin-mcp-ability-guard' )
+						: __( 'Looks read-only from its name and arguments. Unverified — being checked as it runs.', 'kevin-mcp-ability-guard' ),
 				);
 			}
 
 			return array(
 				'decision' => $fallback,
 				'reason'   => self::AUTO === $fallback
-					? __( 'No rule set — allowed by default. Recorded, and undoable from the audit log.', 'mcp-ability-guard' )
-					: __( 'No rule set, and this ability has never been observed.', 'mcp-ability-guard' ),
+					? __( 'No rule set — allowed by default. Recorded, and undoable from the audit log.', 'kevin-mcp-ability-guard' )
+					: __( 'No rule set, and this ability has never been observed.', 'kevin-mcp-ability-guard' ),
 			);
 		}
 
@@ -231,10 +231,10 @@ final class Policy {
 				'reason'   => $profile['operations']
 					? sprintf(
 						/* translators: %s: comma-separated list of operations. */
-						__( 'No rule set — allowed by default. Observed: %s', 'mcp-ability-guard' ),
+						__( 'No rule set — allowed by default. Observed: %s', 'kevin-mcp-ability-guard' ),
 						implode( ', ', $profile['operations'] )
 					)
-					: __( 'No rule set — allowed by default.', 'mcp-ability-guard' ),
+					: __( 'No rule set — allowed by default.', 'kevin-mcp-ability-guard' ),
 			);
 		}
 
@@ -242,8 +242,8 @@ final class Policy {
 			'decision' => self::REQUIRE,
 			'reason'   => sprintf(
 				/* translators: %s: comma-separated list of operations. */
-				__( 'Observed writing: %s', 'mcp-ability-guard' ),
-				implode( ', ', $profile['operations'] ) ?: __( 'unclassified', 'mcp-ability-guard' )
+				__( 'Observed writing: %s', 'kevin-mcp-ability-guard' ),
+				implode( ', ', $profile['operations'] ) ?: __( 'unclassified', 'kevin-mcp-ability-guard' )
 			),
 		);
 	}
