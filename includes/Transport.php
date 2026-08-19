@@ -35,7 +35,7 @@ final class Transport {
 	/** Coverage observations, flushed once per request. */
 	private static $seen = array();
 
-	public const COVERAGE_OPTION = 'mag_coverage';
+	public const COVERAGE_OPTION = 'proviso_coverage';
 
 	/** Distinct (route, tool) pairs retained. Bounded so the option cannot grow without limit. */
 	private const COVERAGE_MAX = 400;
@@ -113,10 +113,10 @@ final class Transport {
 					return self::deny(
 						$call,
 						$is_batch,
-						'mag_ungoverned_tool',
+						'proviso_ungoverned_tool',
 						sprintf(
 							/* translators: %s: tool name. */
-							__( 'The tool "%s" is not governed by this site and site policy refuses ungoverned calls. Do not retry.', 'kevin-mcp-ability-guard' ),
+							__( 'The tool "%s" is not governed by this site and site policy refuses ungoverned calls. Do not retry.', 'proviso-ai' ),
 							$tool
 						)
 					);
@@ -132,10 +132,10 @@ final class Transport {
 				return self::deny(
 					$call,
 					$is_batch,
-					'mag_blocked',
+					'proviso_blocked',
 					sprintf(
 						/* translators: %s: ability name. */
-						__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'kevin-mcp-ability-guard' ),
+						__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'proviso-ai' ),
 						$ability
 					)
 				);
@@ -144,7 +144,7 @@ final class Transport {
 			if ( Policy::REQUIRE === $verdict['decision'] ) {
 				$id = Requests::queue( $ability, $input, array( 'reason' => $verdict['reason'] ) );
 				if ( is_wp_error( $id ) ) {
-					return self::deny( $call, $is_batch, 'mag_queue_failed', $id->get_error_message() );
+					return self::deny( $call, $is_batch, 'proviso_queue_failed', $id->get_error_message() );
 				}
 
 				AuditLog::record( $ability, 'require', 'queued', null, $input, (int) $id );
@@ -152,10 +152,10 @@ final class Transport {
 				return self::deny(
 					$call,
 					$is_batch,
-					'mag_pending_approval',
+					'proviso_pending_approval',
 					sprintf(
 						/* translators: %d: change request ID. */
-						__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'kevin-mcp-ability-guard' ),
+						__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the proviso/check-request ability to look up the outcome later.', 'proviso-ai' ),
 						(int) $id
 					),
 					array(

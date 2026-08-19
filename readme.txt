@@ -1,4 +1,4 @@
-=== Kevin Ability Guard for MCP ===
+=== Proviso – Approvals and Undo for MCP AI Agents ===
 Contributors: kevinplugins
 Tags: mcp, ai, abilities, model context protocol, approval
 Requires at least: 6.9
@@ -14,7 +14,7 @@ Set every AI ability to always allow, require approval, or always reject — and
 
 MCP plugins let an AI agent act on your site. Whichever one you use, the result is the same: a model connected in Claude, Cursor or Codex can create posts, edit content, change settings and delete things, and by default nothing stands between the model deciding and WordPress doing.
 
-Ability Guard puts a decision point in front of every ability. For each one you choose:
+Proviso puts a decision point in front of every ability. For each one you choose:
 
 * **Always allow** — it runs, and what it did is recorded
 * **Require approval** — it is held. Nothing changes until a human says yes
@@ -85,7 +85,7 @@ Changes to posts, pages, options, users, terms and comments can be reverted from
 
 = Source code =
 
-Development happens in the open at [github.com/KevinPlugins/mcb-ability-guard](https://github.com/KevinPlugins/mcb-ability-guard).
+Development happens in the open at [github.com/KevinPlugins/proviso-ai](https://github.com/KevinPlugins/proviso-ai).
 
 The admin screen is a Vue application. What ships in `assets/` is the compiled bundle; the readable source it was built from lives in the `app/` directory of that repository, along with the build configuration, so anyone can rebuild it and compare.
 
@@ -101,9 +101,9 @@ Model Context Protocol is an open specification originally developed by Anthropi
 
 == Installation ==
 
-1. Install Ability Guard for MCP from the plugin directory, or upload the plugin zip.
+1. Install Proviso from the plugin directory, or upload the plugin zip.
 2. Activate it.
-3. Go to **Tools &gt; Ability Guard**.
+3. Go to **Tools &gt; Proviso**.
 
 On a site that already has abilities registered, leave **Learning mode** on to begin with. The plugin watches and classifies without holding anything, so you can see what your abilities actually do before deciding anything. When the list looks right, turn learning mode off and set rules on the abilities you care about.
 

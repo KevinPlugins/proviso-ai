@@ -46,7 +46,7 @@ final class Preview {
 				'target'  => $target,
 				'fields'  => $fields,
 				'diff'    => array(),
-				'notice'  => __( 'Arguments only — the effect of this ability could not be verified.', 'kevin-mcp-ability-guard' ),
+				'notice'  => __( 'Arguments only — the effect of this ability could not be verified.', 'proviso-ai' ),
 			);
 		}
 
@@ -77,7 +77,7 @@ final class Preview {
 			'diff'   => Redactor::redact( $diff, $schema ),
 			'notice' => $diff
 				? ''
-				: __( 'The supplied values match the current state — this change would alter nothing.', 'kevin-mcp-ability-guard' ),
+				: __( 'The supplied values match the current state — this change would alter nothing.', 'proviso-ai' ),
 		);
 	}
 

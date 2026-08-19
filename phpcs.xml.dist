@@ -44,7 +44,7 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="kevin-mcp-ability-guard"/>
+				<element value="proviso"/>
 			</property>
 		</properties>
 	</rule>

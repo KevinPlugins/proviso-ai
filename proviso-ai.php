@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name:       Kevin Ability Guard for MCP
- * Plugin URI:        https://www.kevinplugins.com/mcp-ability-guard/
+ * Plugin Name:       Proviso – Approvals and Undo for MCP AI Agents
+ * Plugin URI:        https://www.kevinplugins.com/proviso-ai/
  * Description:       Governance for the WordPress Abilities API. Observes what every ability actually does, then gates the dangerous ones behind human approval — for abilities registered by any plugin.
  * Version:           1.0.0
  * Requires at least: 6.9
@@ -10,7 +10,7 @@
  * Author URI:        https://www.kevinplugins.com
  * License:           GPLv2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       kevin-mcp-ability-guard
+ * Text Domain:       proviso-ai
  *
  * @package McpAbilityGuard
  */

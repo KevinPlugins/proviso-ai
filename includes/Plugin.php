@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
 
 final class Plugin {
 
-	public const CRON_EXPIRE = 'mag_expire_requests';
+	public const CRON_EXPIRE = 'proviso_expire_requests';
 
 	public static function boot(): void {
 		// Must be attached before any ability registers.
@@ -35,10 +35,10 @@ final class Plugin {
 			return;
 		}
 		wp_register_ability_category(
-			'mag',
+			'proviso',
 			array(
-				'label'       => __( 'Ability Guard', 'kevin-mcp-ability-guard' ),
-				'description' => __( 'Governance and approval status.', 'kevin-mcp-ability-guard' ),
+				'label'       => __( 'Proviso', 'proviso-ai' ),
+				'description' => __( 'Governance and approval status.', 'proviso-ai' ),
 			)
 		);
 	}
@@ -55,18 +55,18 @@ final class Plugin {
 		}
 
 		wp_register_ability(
-			'mag/check-request',
+			'proviso/check-request',
 			array(
-				'label'       => __( 'Check change request', 'kevin-mcp-ability-guard' ),
-				'description' => __( 'Look up whether a change you proposed has been approved, rejected, or is still awaiting review. Call this instead of retrying a change that returned mag_pending_approval.', 'kevin-mcp-ability-guard' ),
-				'category'    => 'mag',
+				'label'       => __( 'Check change request', 'proviso-ai' ),
+				'description' => __( 'Look up whether a change you proposed has been approved, rejected, or is still awaiting review. Call this instead of retrying a change that returned proviso_pending_approval.', 'proviso-ai' ),
+				'category'    => 'proviso',
 				'input_schema' => array(
 					'type'       => 'object',
 					'required'   => array( 'request_id' ),
 					'properties' => array(
 						'request_id' => array(
 							'type'        => 'integer',
-							'description' => __( 'The change request ID returned when the change was queued.', 'kevin-mcp-ability-guard' ),
+							'description' => __( 'The change request ID returned when the change was queued.', 'proviso-ai' ),
 						),
 					),
 				),
@@ -83,7 +83,7 @@ final class Plugin {
 				'execute_callback' => static function ( $input ) {
 					$request = Requests::find( (int) ( $input['request_id'] ?? 0 ) );
 					if ( ! $request ) {
-						return new \WP_Error( 'mag_not_found', __( 'No such change request.', 'kevin-mcp-ability-guard' ) );
+						return new \WP_Error( 'proviso_not_found', __( 'No such change request.', 'proviso-ai' ) );
 					}
 					// Agents see status only — never another user's arguments.
 					return array(

@@ -23,17 +23,17 @@ final class Schema {
 
 	public static function requests_table(): string {
 		global $wpdb;
-		return $wpdb->prefix . 'mag_requests';
+		return $wpdb->prefix . 'proviso_requests';
 	}
 
 	public static function audit_table(): string {
 		global $wpdb;
-		return $wpdb->prefix . 'mag_audit';
+		return $wpdb->prefix . 'proviso_audit';
 	}
 
 	public static function approvals_table(): string {
 		global $wpdb;
-		return $wpdb->prefix . 'mag_approvals';
+		return $wpdb->prefix . 'proviso_approvals';
 	}
 
 	public static function install(): void {
@@ -107,7 +107,7 @@ final class Schema {
 			) {$charset};"
 		);
 
-		update_option( 'mag_db_version', DB_VERSION );
+		update_option( 'proviso_db_version', DB_VERSION );
 	}
 
 	/** Whether install() has run. Tests and the admin notice both need this. */
@@ -122,7 +122,7 @@ final class Schema {
 		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', self::requests_table() ) );
 		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', self::audit_table() ) );
 		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %i', self::approvals_table() ) );
-		delete_option( 'mag_db_version' );
+		delete_option( 'proviso_db_version' );
 		delete_option( Profiles::OPTION );
 		delete_option( Policy::OPTION );
 		wp_clear_scheduled_hook( Plugin::CRON_EXPIRE );

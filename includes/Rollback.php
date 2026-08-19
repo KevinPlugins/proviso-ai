@@ -135,7 +135,7 @@ final class Rollback {
 	 */
 	public static function apply( array $plan, bool $force = false ) {
 		if ( empty( $plan['steps'] ) ) {
-			return new \WP_Error( 'mag_nothing_to_undo', __( 'This action recorded no reversible changes.', 'kevin-mcp-ability-guard' ) );
+			return new \WP_Error( 'proviso_nothing_to_undo', __( 'This action recorded no reversible changes.', 'proviso-ai' ) );
 		}
 
 		$applied = 0;
@@ -147,7 +147,7 @@ final class Rollback {
 			if ( $stale && ! $force ) {
 				$skipped[] = sprintf(
 					/* translators: 1: operation, 2: object id */
-					__( '%1$s #%2$s was changed again after this action; leaving it alone.', 'kevin-mcp-ability-guard' ),
+					__( '%1$s #%2$s was changed again after this action; leaving it alone.', 'proviso-ai' ),
 					$step['do'],
 					(string) $step['id']
 				);
@@ -207,14 +207,14 @@ final class Rollback {
 			case 'post.delete':
 				return wp_delete_post( (int) $id, true )
 					? true
-					: new \WP_Error( 'mag_undo_failed', 'Could not remove post #' . $id );
+					: new \WP_Error( 'proviso_undo_failed', 'Could not remove post #' . $id );
 
 			case 'post.restore':
 				$ok = wp_update_post( array_merge( $before, array( 'ID' => (int) $id ) ), true );
 				return is_wp_error( $ok ) ? $ok : true;
 
 			case 'post.untrash':
-				return wp_untrash_post( (int) $id ) ? true : new \WP_Error( 'mag_undo_failed', 'Could not restore post #' . $id );
+				return wp_untrash_post( (int) $id ) ? true : new \WP_Error( 'proviso_undo_failed', 'Could not restore post #' . $id );
 
 			case 'post.recreate':
 				$data = $before;
@@ -246,7 +246,7 @@ final class Rollback {
 				return true;
 
 			case 'comment.delete':
-				return wp_delete_comment( (int) $id, true ) ? true : new \WP_Error( 'mag_undo_failed', 'Could not remove comment #' . $id );
+				return wp_delete_comment( (int) $id, true ) ? true : new \WP_Error( 'proviso_undo_failed', 'Could not remove comment #' . $id );
 
 			case 'user.restore':
 				$fields       = $before;
@@ -256,7 +256,7 @@ final class Rollback {
 				return is_wp_error( $ok ) ? $ok : true;
 		}
 
-		return new \WP_Error( 'mag_unknown_step', 'Unknown undo step: ' . $step['do'] );
+		return new \WP_Error( 'proviso_unknown_step', 'Unknown undo step: ' . $step['do'] );
 	}
 
 	/** Operations this plugin knows how to reverse. */
@@ -299,26 +299,26 @@ final class Rollback {
 	/** Human summary for the audit screen. */
 	public static function describe( array $plan ): string {
 		if ( empty( $plan['steps'] ) && empty( $plan['blocked'] ) ) {
-			return __( 'Nothing was changed.', 'kevin-mcp-ability-guard' );
+			return __( 'Nothing was changed.', 'proviso-ai' );
 		}
 		if ( ! empty( $plan['reversible'] ) ) {
 			return sprintf(
 				/* translators: %d: number of steps. */
-				_n( 'Fully reversible (%d step).', 'Fully reversible (%d steps).', count( $plan['steps'] ), 'kevin-mcp-ability-guard' ),
+				_n( 'Fully reversible (%d step).', 'Fully reversible (%d steps).', count( $plan['steps'] ), 'proviso-ai' ),
 				count( $plan['steps'] )
 			);
 		}
 		if ( ! empty( $plan['partial'] ) ) {
 			return sprintf(
 				/* translators: 1: reversible steps, 2: blocking reasons */
-				__( 'Partly reversible: %1$d step(s) can be undone, but %2$s.', 'kevin-mcp-ability-guard' ),
+				__( 'Partly reversible: %1$d step(s) can be undone, but %2$s.', 'proviso-ai' ),
 				count( $plan['steps'] ),
 				implode( '; ', $plan['blocked'] )
 			);
 		}
 		return sprintf(
 			/* translators: %s: blocking reasons. */
-			__( 'Not reversible: %s.', 'kevin-mcp-ability-guard' ),
+			__( 'Not reversible: %s.', 'proviso-ai' ),
 			implode( '; ', $plan['blocked'] )
 		);
 	}

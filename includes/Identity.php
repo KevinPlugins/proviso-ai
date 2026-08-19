@@ -103,7 +103,7 @@ final class Identity {
 			return self::$current = self::build(
 				'apw:' . self::$app_password['uuid'],
 				self::BOUND,
-				self::$app_password['name'] ?: __( 'Application password', 'kevin-mcp-ability-guard' ),
+				self::$app_password['name'] ?: __( 'Application password', 'proviso-ai' ),
 				$user_id,
 				'application_password',
 				$signals
@@ -147,7 +147,7 @@ final class Identity {
 			return self::$current = self::build(
 				'session:' . hash( 'sha256', $signals['session_id'] ),
 				self::OBSERVED,
-				__( 'MCP session', 'kevin-mcp-ability-guard' ) . ' ' . substr( $signals['session_id'], 0, 8 ),
+				__( 'MCP session', 'proviso-ai' ) . ' ' . substr( $signals['session_id'], 0, 8 ),
 				$user_id,
 				$signals['auth_scheme'] ?: 'mcp',
 				$signals
@@ -161,7 +161,7 @@ final class Identity {
 		return self::$current = self::build(
 			$user_id ? 'unresolved:' . $user_id : 'unresolved',
 			self::UNRESOLVED,
-			__( 'Unidentified client', 'kevin-mcp-ability-guard' ),
+			__( 'Unidentified client', 'proviso-ai' ),
 			$user_id,
 			$signals['auth_scheme'] ?: 'unknown',
 			$signals
@@ -209,7 +209,7 @@ final class Identity {
 			return '';
 		}
 
-		$cached = get_transient( 'mag_client_' . md5( $session ) );
+		$cached = get_transient( 'proviso_client_' . md5( $session ) );
 		if ( is_string( $cached ) ) {
 			return $cached;
 		}
@@ -222,7 +222,7 @@ final class Identity {
 			$candidate = $json['params']['clientInfo']['name'] ?? '';
 			if ( is_string( $candidate ) && '' !== $candidate ) {
 				$name = sanitize_text_field( $candidate );
-				set_transient( 'mag_client_' . md5( $session ), $name, DAY_IN_SECONDS );
+				set_transient( 'proviso_client_' . md5( $session ), $name, DAY_IN_SECONDS );
 			}
 		}
 

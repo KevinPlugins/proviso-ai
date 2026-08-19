@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Rest {
 
-	public const NAMESPACE = 'mag/v1';
+	public const NAMESPACE = 'proviso/v1';
 
 	public static function boot(): void {
 		add_action( 'rest_api_init', array( self::class, 'register_routes' ) );
@@ -205,7 +205,7 @@ final class Rest {
 		$ability = sanitize_text_field( (string) ( $body['ability'] ?? '' ) );
 
 		if ( '' === $ability ) {
-			return new \WP_Error( 'mag_bad_request', __( 'No ability given.', 'kevin-mcp-ability-guard' ), array( 'status' => 400 ) );
+			return new \WP_Error( 'proviso_bad_request', __( 'No ability given.', 'proviso-ai' ), array( 'status' => 400 ) );
 		}
 
 		if ( array_key_exists( 'rule', $body ) ) {
@@ -423,6 +423,11 @@ final class Rest {
 						'partial'    => ! empty( $plan['partial'] ),
 						'blocked'    => array_values( $plan['blocked'] ?? array() ),
 					),
+					// The raw operations answer "what columns changed"; these
+					// answer "what happened", which is the question a reviewer
+					// is actually asking.
+					'headline'  => Narrator::headline( is_array( $e['operations'] ?? null ) ? $e['operations'] : array() ),
+					'summary'   => Narrator::summarise( is_array( $e['operations'] ?? null ) ? $e['operations'] : array() ),
 				);
 			},
 			AuditLog::entries( $limit )
@@ -476,7 +481,7 @@ final class Rest {
 
 	private static function user_name( int $id ): string {
 		if ( ! $id ) {
-			return __( 'system', 'kevin-mcp-ability-guard' );
+			return __( 'system', 'proviso-ai' );
 		}
 		$u = get_userdata( $id );
 		return $u ? $u->display_name : (string) $id;

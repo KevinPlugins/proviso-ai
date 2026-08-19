@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Admin {
 
-	public const SLUG = 'mag';
+	public const SLUG = 'proviso';
 
 	public static function boot(): void {
 		add_action( 'admin_menu', array( self::class, 'menu' ) );
@@ -31,7 +31,7 @@ final class Admin {
 		$cap     = self::capability();
 		$pending = Requests::count_pending();
 
-		$title = __( 'Ability Guard', 'kevin-mcp-ability-guard' );
+		$title = __( 'Proviso', 'proviso-ai' );
 		if ( $pending ) {
 			$title .= sprintf(
 				' <span class="awaiting-mod"><span class="pending-count">%d</span></span>',
@@ -40,7 +40,7 @@ final class Admin {
 		}
 
 		add_menu_page(
-			__( 'MCP Ability Guard', 'kevin-mcp-ability-guard' ),
+			__( 'Proviso', 'proviso-ai' ),
 			$title,
 			$cap,
 			self::SLUG,
@@ -51,9 +51,9 @@ final class Admin {
 
 		// Submenus deep-link into the app rather than rendering separate screens.
 		$views = array(
-			'abilities' => __( 'Abilities', 'kevin-mcp-ability-guard' ),
-			'queue'     => __( 'Approval Queue', 'kevin-mcp-ability-guard' ),
-			'audit'     => __( 'Audit Log', 'kevin-mcp-ability-guard' ),
+			'abilities' => __( 'Abilities', 'proviso-ai' ),
+			'queue'     => __( 'Approval Queue', 'proviso-ai' ),
+			'audit'     => __( 'Audit Log', 'proviso-ai' ),
 		);
 
 		foreach ( $views as $view => $label ) {
@@ -69,8 +69,8 @@ final class Admin {
 
 		add_submenu_page(
 			self::SLUG,
-			__( 'Settings', 'kevin-mcp-ability-guard' ),
-			__( 'Settings', 'kevin-mcp-ability-guard' ),
+			__( 'Settings', 'proviso-ai' ),
+			__( 'Settings', 'proviso-ai' ),
 			'manage_options',
 			self::SLUG . '&view=settings',
 			'__return_null'
@@ -95,15 +95,15 @@ final class Admin {
 			return;
 		}
 
-		wp_enqueue_script( 'mag-app', $base . 'app.js', array(), (string) filemtime( $js ), true );
+		wp_enqueue_script( 'proviso-app', $base . 'app.js', array(), (string) filemtime( $js ), true );
 
 		if ( is_readable( $css ) ) {
-			wp_enqueue_style( 'mag-app', $base . 'app.css', array(), (string) filemtime( $css ) );
+			wp_enqueue_style( 'proviso-app', $base . 'app.css', array(), (string) filemtime( $css ) );
 		}
 
 		wp_localize_script(
-			'mag-app',
-			'magGuard',
+			'proviso-app',
+			'provisoData',
 			array(
 				'root'  => esc_url_raw( rest_url() ),
 				'nonce' => wp_create_nonce( 'wp_rest' ),
@@ -115,11 +115,11 @@ final class Admin {
 		if ( ! Schema::is_installed() ) {
 			printf(
 				'<div class="wrap"><div class="notice notice-error"><p>%s</p></div></div>',
-				esc_html__( 'Storage tables are missing. Deactivate and reactivate MCP Ability Guard.', 'kevin-mcp-ability-guard' )
+				esc_html__( 'Storage tables are missing. Deactivate and reactivate Proviso.', 'proviso-ai' )
 			);
 			return;
 		}
 
-		echo '<div id="mag-app"></div>';
+		echo '<div id="proviso-app"></div>';
 	}
 }

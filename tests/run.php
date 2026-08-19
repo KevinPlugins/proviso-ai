@@ -1,6 +1,6 @@
 <?php
 /**
- * Integration tests for MCP Ability Guard.
+ * Integration tests for Proviso.
  *
  * Runs against a real WordPress install (no WP test scaffolding required),
  * creates everything it needs, and removes all of it again — including its own
@@ -103,17 +103,17 @@ if ( ! $admins ) {
 }
 wp_set_current_user( (int) $admins[0] );
 
-require_once __DIR__ . '/../kevin-mcp-ability-guard.php';
+require_once __DIR__ . '/../proviso.php';
 
 // The suite writes to, and finally drops, the plugin's own tables. That is fine
 // on a machine where the plugin is dormant and destructive where it is live, so
 // refuse rather than quietly deleting somebody's approval queue.
-$is_active = in_array( 'kevin-mcp-ability-guard/kevin-mcp-ability-guard.php', (array) get_option( 'active_plugins', array() ), true );
+$is_active = in_array( 'proviso/proviso.php', (array) get_option( 'active_plugins', array() ), true );
 
 if ( $is_active && ! getenv( 'MAG_TEST_FORCE' ) ) {
 	fwrite(
 		STDERR,
-		"MCP Ability Guard is ACTIVE on this site.\n" .
+		"Proviso is ACTIVE on this site.\n" .
 		"These tests drop the plugin's tables when they finish, which would\n" .
 		"delete real pending requests and audit history.\n\n" .
 		"Deactivate the plugin first, or re-run with MAG_TEST_FORCE=1 to accept\n" .
@@ -219,7 +219,7 @@ wp_register_ability(
 		'category'            => 'magtest',
 		'output_schema'       => array( 'type' => 'object', 'properties' => array( 'ok' => array( 'type' => 'boolean' ) ) ),
 		'execute_callback'    => static function () {
-			update_option( 'mag_liar_probe', 'written' );
+			update_option( 'proviso_liar_probe', 'written' );
 			return array( 'ok' => true );
 		},
 		'permission_callback' => static fn() => true,
@@ -311,7 +311,7 @@ $result = wp_get_ability( 'magtest/update-post' )->execute(
 	)
 );
 
-T::wp_error( $result, 'mag_pending_approval', 'never-observed ability returns pending_approval' );
+T::wp_error( $result, 'proviso_pending_approval', 'never-observed ability returns pending_approval' );
 
 $request_id = (int) ( $result->get_error_data()['request_id'] ?? 0 );
 T::ok( $request_id > 0, 'a change request was created (#' . $request_id . ')' );
@@ -348,7 +348,7 @@ T::ok(
 );
 
 $again = Requests::approve( $request_id );
-T::wp_error( $again, 'mag_not_pending', 'an applied request cannot be approved twice' );
+T::wp_error( $again, 'proviso_not_pending', 'an applied request cannot be approved twice' );
 
 T::group( '5. Staleness — a human edit between propose and approve' );
 
@@ -361,7 +361,7 @@ $r2_id = (int) $r2->get_error_data()['request_id'];
 wp_update_post( array( 'ID' => $post_id, 'post_title' => 'Edited by a human' ) );
 
 $stale = Requests::approve( $r2_id );
-T::wp_error( $stale, 'mag_stale', 'approving a stale request is refused' );
+T::wp_error( $stale, 'proviso_stale', 'approving a stale request is refused' );
 T::same( get_post( $post_id )->post_title, 'Edited by a human', "the human's edit was not overwritten" );
 
 Requests::reject( $r2_id );
@@ -415,7 +415,7 @@ T::group( '8. Block rule' );
 
 Policy::set_rule( 'magtest/custom-write', Policy::BLOCK );
 $blocked = wp_get_ability( 'magtest/custom-write' )->execute( array( 'email' => 'x@example.com' ) );
-T::wp_error( $blocked, 'mag_blocked', 'blocked ability refuses to run' );
+T::wp_error( $blocked, 'proviso_blocked', 'blocked ability refuses to run' );
 T::ok(
 	false !== strpos( $blocked->get_error_message(), 'Do not retry' ),
 	'the error tells the agent not to route around the gate'
@@ -447,7 +447,7 @@ T::ok( ! is_wp_error( $status ), 'check-request executes', is_wp_error( $status 
 T::same( $status['status'] ?? '', Requests::APPLIED, 'reports the applied status back to the agent' );
 T::wp_error(
 	wp_get_ability( 'mag/check-request' )->execute( array( 'request_id' => 99999999 ) ),
-	'mag_not_found',
+	'proviso_not_found',
 	'unknown request IDs are rejected'
 );
 
@@ -530,7 +530,7 @@ $wpdb->update( Schema::requests_table(), array( 'expires_at' => '2000-01-01 00:0
 
 T::same( Requests::expire_due(), 1, 'an overdue request expires' );
 T::same( Requests::find( $t1_id )['status'], Requests::EXPIRED, 'and is marked expired, not approved' );
-T::wp_error( Requests::approve( $t1_id ), 'mag_not_pending', 'an expired request cannot then be approved' );
+T::wp_error( Requests::approve( $t1_id ), 'proviso_not_pending', 'an expired request cannot then be approved' );
 
 Policy::update( array( 'timeout_minutes' => 0 ) );
 
@@ -557,7 +557,7 @@ $undo = AuditLog::undo( (int) $entry['id'] );
 
 T::ok( ! is_wp_error( $undo ), 'undo succeeded', is_wp_error( $undo ) ? $undo->get_error_message() : '' );
 T::same( get_post( $post_id )->post_title, $before_title, 'the post is back to its previous title' );
-T::wp_error( AuditLog::undo( (int) $entry['id'] ), 'mag_already_undone', 'undo is not repeatable' );
+T::wp_error( AuditLog::undo( (int) $entry['id'] ), 'proviso_already_undone', 'undo is not repeatable' );
 
 T::group( '16. Rollback refuses to clobber later edits' );
 
@@ -584,7 +584,7 @@ $plan3  = AuditLog::rollback_plan( (int) $entry3['id'] );
 
 T::same( $plan3['reversible'], false, 'a plugin-table write is not claimed reversible' );
 T::ok( ! empty( $plan3['blocked'] ), 'and the reason is recorded: ' . ( $plan3['blocked'][0] ?? '' ) );
-T::wp_error( AuditLog::undo( (int) $entry3['id'] ), 'mag_nothing_to_undo', 'undo refuses rather than half-working' );
+T::wp_error( AuditLog::undo( (int) $entry3['id'] ), 'proviso_nothing_to_undo', 'undo refuses rather than half-working' );
 
 Policy::update( array( 'learning_mode' => false ) );
 
@@ -633,7 +633,7 @@ if ( $liar ) {
 	$violations = array_filter( AuditLog::entries( 50 ), static fn( $e ) => 'violation' === $e['decision'] );
 	T::ok( ! empty( $violations ), 'the broken claim is logged as a violation, not a routine observation' );
 
-	delete_option( 'mag_liar_probe' );
+	delete_option( 'proviso_liar_probe' );
 } else {
 	T::ok( false, 'liar fixture registered' );
 }
@@ -705,7 +705,7 @@ T::same(
 	array( Policy::AUTO, Policy::REQUIRE, Policy::BLOCK ),
 	'and approval becomes available for it'
 );
-delete_option( 'mag_liar_probe' );
+delete_option( 'proviso_liar_probe' );
 
 T::group( '22. Default approvers are administrators' );
 
@@ -721,8 +721,8 @@ T::same( $default_rule['quorum'], Policy::ANY, 'and any one of them suffices' );
 
 T::group( '23. Who approves — users, roles and quorum' );
 
-$editor_a = wp_insert_user( array( 'user_login' => 'mag_editor_a', 'user_pass' => wp_generate_password(), 'role' => 'editor' ) );
-$editor_b = wp_insert_user( array( 'user_login' => 'mag_editor_b', 'user_pass' => wp_generate_password(), 'role' => 'editor' ) );
+$editor_a = wp_insert_user( array( 'user_login' => 'proviso_editor_a', 'user_pass' => wp_generate_password(), 'role' => 'editor' ) );
+$editor_b = wp_insert_user( array( 'user_login' => 'proviso_editor_b', 'user_pass' => wp_generate_password(), 'role' => 'editor' ) );
 $admin_id = (int) $admins[0];
 
 Policy::update( array( 'approve_cap' => 'edit_posts', 'rules' => array(), 'learning_mode' => false ) );
@@ -754,7 +754,7 @@ $q1 = wp_get_ability( 'magtest/update-post' )->execute(
 );
 $q1_id = (int) $q1->get_error_data()['request_id'];
 
-T::wp_error( Requests::approve( $q1_id, $admin_id ), 'mag_cannot_approve', 'a non-approver is refused' );
+T::wp_error( Requests::approve( $q1_id, $admin_id ), 'proviso_cannot_approve', 'a non-approver is refused' );
 
 $r1 = Requests::approve( $q1_id, (int) $editor_a );
 T::ok( ! is_wp_error( $r1 ), 'the named approver succeeds', is_wp_error( $r1 ) ? $r1->get_error_message() : '' );
@@ -776,7 +776,7 @@ $q2_id = (int) $q2->get_error_data()['request_id'];
 $first = Requests::approve( $q2_id, (int) $editor_a );
 T::same( $first['status'] ?? '', Requests::PENDING, 'the first approval does not execute under ALL' );
 T::same( get_post( $post_id )->post_title, 'ANY quorum', 'and nothing has changed yet' );
-T::wp_error( Requests::approve( $q2_id, (int) $editor_a ), 'mag_already_voted', 'one person cannot approve twice to reach quorum alone' );
+T::wp_error( Requests::approve( $q2_id, (int) $editor_a ), 'proviso_already_voted', 'one person cannot approve twice to reach quorum alone' );
 
 $second = Requests::approve( $q2_id, (int) $editor_b );
 T::ok( ! is_wp_error( $second ), 'the last approval executes', is_wp_error( $second ) ? $second->get_error_message() : '' );
@@ -892,7 +892,7 @@ Policy::clear_rule( 'magtest/update-post' );
 
 echo "\n\033[1mTeardown\033[0m\n";
 
-foreach ( array( 'mag_editor_a', 'mag_editor_b' ) as $login ) {
+foreach ( array( 'proviso_editor_a', 'proviso_editor_b' ) as $login ) {
 	$u = get_user_by( 'login', $login );
 	if ( $u ) {
 		require_once ABSPATH . 'wp-admin/includes/user.php';
@@ -900,7 +900,7 @@ foreach ( array( 'mag_editor_a', 'mag_editor_b' ) as $login ) {
 		echo "  removed test user {$login}\n";
 	}
 }
-delete_option( 'mag_liar_probe' );
+delete_option( 'proviso_liar_probe' );
 
 if ( $post_id ) {
 	wp_delete_post( (int) $post_id, true );

@@ -1,6 +1,6 @@
 import { reactive } from 'vue';
 
-const cfg = window.magGuard || {};
+const cfg = window.provisoData || {};
 
 /**
  * Single reactive store. The app is small enough that Pinia would be ceremony;
@@ -29,7 +29,7 @@ export function notify(message, type = 'info') {
 }
 
 async function api(path, options = {}) {
-  const response = await fetch(`${cfg.root}mag/v1${path}`, {
+  const response = await fetch(`${cfg.root}proviso/v1${path}`, {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',

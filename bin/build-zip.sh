@@ -8,7 +8,7 @@
 # keeps the download small.
 #
 # Usage:
-#   bin/build-zip.sh            build release/kevin-mcp-ability-guard-<version>.zip
+#   bin/build-zip.sh            build release/proviso-<version>.zip
 #   bin/build-zip.sh --check    dry run: list what would ship, build nothing
 #
 set -euo pipefail

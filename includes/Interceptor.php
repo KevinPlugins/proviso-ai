@@ -45,7 +45,7 @@ final class Interceptor {
 		}
 
 		// Never govern our own abilities — that would deadlock the queue.
-		if ( 0 === strpos( (string) $name, 'mag/' ) ) {
+		if ( 0 === strpos( (string) $name, 'proviso/' ) ) {
 			return $args;
 		}
 
@@ -84,10 +84,10 @@ final class Interceptor {
 		if ( Policy::BLOCK === $verdict['decision'] ) {
 			AuditLog::record( $name, 'block', 'blocked', null, $input );
 			return new \WP_Error(
-				'mag_blocked',
+				'proviso_blocked',
 				sprintf(
 					/* translators: %s: ability name. */
-					__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'kevin-mcp-ability-guard' ),
+					__( 'The ability "%s" is blocked by site policy. Do not retry, and do not attempt the same change through another ability.', 'proviso-ai' ),
 					$name
 				),
 				array( 'status' => 'blocked' )
@@ -106,10 +106,10 @@ final class Interceptor {
 			// the gate using a different ability; it needs to know the request
 			// is live and that waiting is the correct behaviour.
 			return new \WP_Error(
-				'mag_pending_approval',
+				'proviso_pending_approval',
 				sprintf(
 					/* translators: %d: change request ID. */
-					__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the mag/check-request ability to look up the outcome later.', 'kevin-mcp-ability-guard' ),
+					__( 'This change needs human approval and has been queued as request #%d. Nothing has been changed yet. Do not retry and do not attempt the same change another way — report to the user that approval is pending, and use the proviso/check-request ability to look up the outcome later.', 'proviso-ai' ),
 					(int) $id
 				),
 				array(
@@ -171,7 +171,7 @@ final class Interceptor {
 	private static function invoke( string $name, $input ) {
 		$callback = self::$originals[ $name ] ?? null;
 		if ( ! $callback ) {
-			return new \WP_Error( 'mag_no_callback', __( 'Original ability callback is unavailable.', 'kevin-mcp-ability-guard' ) );
+			return new \WP_Error( 'proviso_no_callback', __( 'Original ability callback is unavailable.', 'proviso-ai' ) );
 		}
 
 		// Core passes no argument when the ability declares no input schema.

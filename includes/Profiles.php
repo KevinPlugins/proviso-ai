@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Profiles {
 
-	public const OPTION = 'mag_profiles';
+	public const OPTION = 'proviso_profiles';
 
 	public const UNKNOWN   = 'unknown';    // Never observed.
 	public const LEARNING  = 'learning';   // Seen, but not enough to trust.
